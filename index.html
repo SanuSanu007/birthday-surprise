@@ -7,20 +7,20 @@
 
 <style>
 body {
-    text-align: center;
+    margin: 0;
     font-family: Arial;
     background: #ffe6f0;
-    margin: 0;
     overflow: hidden;
 }
 
-/* Layout */
+/* Center layout */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    text-align: center;
 }
 
 h1 {
@@ -47,8 +47,6 @@ button {
     font-size: 5vw;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
-    transition: 0.2s;
 }
 
 #yesBtn {
@@ -59,7 +57,22 @@ button {
 #noBtn {
     background-color: #999;
     color: white;
+    position: relative;
 }
+
+/* Static stickers */
+.sticker {
+    position: fixed;
+    width: 18vw;
+    max-width: 120px;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.s1 { top: 5%; left: 5%; }
+.s2 { top: 5%; right: 5%; }
+.s3 { bottom: 5%; left: 5%; }
+.s4 { bottom: 5%; right: 5%; }
 
 /* Shake */
 @keyframes shake {
@@ -73,8 +86,8 @@ button {
 
 /* Hearts */
 .heart {
-    position: absolute;
-    font-size: 20px;
+    position: fixed;
+    font-size: 18px;
     animation: floatUp 5s linear infinite;
 }
 
@@ -85,7 +98,7 @@ button {
 
 /* Confetti */
 .confetti {
-    position: absolute;
+    position: fixed;
     width: 6px;
     height: 6px;
     animation: explode 1.5s ease-out forwards;
@@ -107,6 +120,12 @@ button {
 </head>
 
 <body>
+
+<!-- 🐱 Static Stickers -->
+<img src="pic1.png" class="sticker s1">
+<img src="pic2.png" class="sticker s2">
+<img src="pic3.png" class="sticker s3">
+<img src="pic4.png" class="sticker s4">
 
 <div class="container">
     <h1>Will you be my forever? 💖</h1>
@@ -132,11 +151,11 @@ const successSound = document.getElementById("successSound");
 let yesScale = 1;
 
 const messages = [
-    "You sure? 😏","Think again 🥺","No escape 😆",
-    "Try again 💖","Hehe nope 😜","Come onnn ❤️"
+    "You sure? 😏","Think again 🥺","No escape 😆","Keep Guessing",
+    "Try again 💖","Hehe nope 😜","Come onnn ❤️","Pretty please 🥺"
 ];
 
-/* Move NO button (mobile safe) */
+/* Move NO button */
 function moveNoButton() {
     const rect = noBtn.getBoundingClientRect();
 
@@ -172,12 +191,14 @@ function moveNoButton() {
     }
 }
 
-/* Use CLICK only (mobile friendly) */
 noBtn.addEventListener("click", moveNoButton);
 
 /* YES clicked */
 yesBtn.addEventListener("click", () => {
     successSound.play();
+
+    clearInterval(heartInterval);
+    clearInterval(stickerInterval);
 
     document.body.innerHTML = `
         <div class="container">
@@ -192,17 +213,43 @@ yesBtn.addEventListener("click", () => {
     launchConfetti();
 });
 
-/* Hearts */
+/* 💖 Hearts */
 const heartInterval = setInterval(() => {
     const heart = document.createElement("div");
     heart.classList.add("heart");
     heart.innerHTML = "💖";
-    heart.style.left = Math.random()*100+"vw";
+    heart.style.left = Math.random()*100 + "vw";
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),5000);
 }, 400);
 
-/* Confetti */
+/* 🐱 Floating Stickers */
+const stickerImages = ["free1.png","free2.png","free3.png","free4.png","free6.png"];
+
+const stickerInterval = setInterval(() => {
+    const img = document.createElement("img");
+
+    img.src = stickerImages[Math.floor(Math.random()*stickerImages.length)];
+    img.style.position = "fixed";
+    img.style.width = (Math.random()*40 + 40) + "px";
+    img.style.left = Math.random()*100 + "vw";
+    img.style.top = "100vh";
+    img.style.pointerEvents = "none";
+
+    document.body.appendChild(img);
+
+    img.animate([
+        { transform: "translateY(0)", opacity: 1 },
+        { transform: "translateY(-120vh)", opacity: 0 }
+    ], {
+        duration: 5000,
+        easing: "linear"
+    });
+
+    setTimeout(()=>img.remove(),5000);
+}, 2500);
+
+/* 🎊 Confetti */
 function launchConfetti() {
     const colors=["#ff4d88","#ffd700","#00ccff"];
     const cx=window.innerWidth/2;
@@ -211,16 +258,16 @@ function launchConfetti() {
     for(let i=0;i<80;i++){
         const c=document.createElement("div");
         c.classList.add("confetti");
-        c.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
 
-        c.style.left=cx+"px";
-        c.style.top=cy+"px";
+        c.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+        c.style.left = cx+"px";
+        c.style.top = cy+"px";
 
-        const angle=Math.random()*2*Math.PI;
-        const dist=Math.random()*250;
+        const angle = Math.random()*2*Math.PI;
+        const dist = Math.random()*250;
 
-        c.style.setProperty("--x",Math.cos(angle)*dist+"px");
-        c.style.setProperty("--y",Math.sin(angle)*dist+"px");
+        c.style.setProperty("--x", Math.cos(angle)*dist+"px");
+        c.style.setProperty("--y", Math.sin(angle)*dist+"px");
 
         document.body.appendChild(c);
         setTimeout(()=>c.remove(),1500);
