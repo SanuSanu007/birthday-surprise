@@ -64,7 +64,8 @@ button {
 /* 🐱 Bigger Corner Stickers */
 .sticker {
     position: fixed;
-    width: clamp(180px, 26vw, 280px); /* bigger + responsive */
+    width: 26vw;      
+    max-width: 300px;  
     pointer-events: none;
     opacity: 0.95;
 }
@@ -180,7 +181,7 @@ function moveNoButton() {
     yesScale += 0.15;
     yesBtn.style.transform = `scale(${yesScale})`;
 
-    if (yesScale > 2.5) {
+    if (yesScale > 3) {
         yesBtn.style.position = "fixed";
         yesBtn.style.width = "100vw";
         yesBtn.style.height = "100vh";
