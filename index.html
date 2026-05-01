@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Birthday Surprise 💖</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            margin-top: 100px;
+            background: #ffe6f0;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ff4d88;
+            z-index: 2;
+            position: relative;
+        }
+
+        #teaseText {
+            color: #ff4d88;
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: absolute;
+            transition: 0.3s;
+            z-index: 2;
+        }
+
+        #yesBtn {
+            background-color: #ff4d88;
+            color: white;
+            left: 40%;
+            top: 30%;
+        }
+
+        #noBtn {
+            background-color: #999;
+            color: white;
+            left: 55%;
+            top: 30%;
+        }
+
+        /* 😆 Shake */
+        @keyframes shake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-4px, 2px); }
+            50% { transform: translate(4px, -2px); }
+            75% { transform: translate(-3px, 1px); }
+            100% { transform: translate(0, 0); }
+        }
+        .shake { animation: shake 0.3s; }
+
+        /* 💖 Hearts */
+        .heart {
+            position: absolute;
+            color: #ff4d88;
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(100vh); opacity: 1; }
+            to { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        /* 🎊 Confetti */
+        .confetti {
+            position: absolute;
+            opacity: 0.9;
+            animation: explode 1.8s ease-out forwards;
+        }
+
+        @keyframes explode {
+            from { transform: translate(0,0); opacity:1; }
+            to { transform: translate(var(--x), var(--y)); opacity:0; }
+        }
+
+        /* 🐱 Stickers */
+        .sticker {
+            position: absolute;
+            width: 300px;
+            z-index: 1;
+            pointer-events: none;
+            animation: floatSticker 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatSticker {
+            from { transform: translateY(0px) rotate(-5deg); }
+            to { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* 🖼️ Final image */
+        #finalImage {
+            width: 500px;
+            margin-top: 20px;
+            border-radius: 20px;
+            animation: popIn 0.6s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Will you be my forever? 💖</h1>
+<p id="teaseText"></p>
+
+<!-- 🐱 Static Stickers -->
+<img src="pic1.png" class="sticker" style="left:10%; top:20%;">
+<img src="pic2.png" class="sticker" style="right:10%; top:20%;">
+<img src="pic3.png" class="sticker" style="left:10%; bottom:10%;">
+<img src="pic4.png" class="sticker" style="right:10%; bottom:10%;">
+<img src="pic6.png" class="sticker" style="right:39%; bottom:4%;">
+
+<button id="yesBtn" onclick="yesClicked()">Yes 🤍</button>
+<button id="noBtn">No 🥺</button>
+
+<!-- 🔊 Sounds -->
+<audio id="popSound" src="Pop.mp3"></audio>
+<audio id="successSound" src="Success.mp3"></audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const teaseText = document.getElementById("teaseText");
+
+const popSound = document.getElementById("popSound");
+const successSound = document.getElementById("successSound");
+
+let yesScale = 1;
+
+const playfulMessages = [
+    "You sure?","Think twice.","Pretty please?","Really?",
+    "Oops…","Not quite.","Hmm?","Keep guessing",
+    "Come on","I'm waiting","Try again."
+];
+
+function moveNoButton() {
+    const padding = 100;
+
+    const x = Math.random() * (window.innerWidth - padding);
+    const y = Math.random() * (window.innerHeight - padding);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    popSound.currentTime = 0;
+    popSound.play();
+
+    noBtn.classList.add("shake");
+    setTimeout(() => noBtn.classList.remove("shake"), 300);
+
+    const msg = playfulMessages[Math.floor(Math.random() * playfulMessages.length)];
+    teaseText.style.opacity = 0;
+
+    setTimeout(() => {
+        teaseText.innerText = msg;
+        teaseText.style.opacity = 1;
+    }, 100);
+
+    yesScale += 0.2;
+    yesBtn.style.transform = `scale(${yesScale})`;
+
+    if (yesScale > 3.6) {
+        yesBtn.style.width = "100vw";
+        yesBtn.style.height = "100vh";
+        yesBtn.style.left = "0";
+        yesBtn.style.top = "0";
+        yesBtn.style.borderRadius = "0";
+        yesBtn.style.fontSize = "40px";
+    }
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width/2);
+    const dy = e.clientY - (rect.top + rect.height/2);
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < 120) noBtn.classList.add("shake");
+    else noBtn.classList.remove("shake");
+});
+
+function yesClicked() {
+    successSound.currentTime = 0;
+    successSound.play();
+
+    document.body.innerHTML = `
+        <h1 style="color:#ff4d88; font-size:40px;">
+            YAY!!! 💖🎉<br>
+            Happy Birthday Suttuuu....❤️
+        </h1>
+        <img src="pic5.png" id="finalImage">
+    `;
+
+    launchConfetti();
+
+    setInterval(createFinalImageSticker, 1500);
+}
+
+/* 💖 Hearts */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random()*window.innerWidth+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+/* 🐱 Floating stickers */
+function createSticker() {
+    const sticker = document.createElement("img");
+    const imgs = ["free1.png","free2.png","free3.png","free4.png","free6.png"];
+    sticker.src = imgs[Math.floor(Math.random()*imgs.length)];
+    sticker.classList.add("sticker");
+
+    sticker.style.left = Math.random()*window.innerWidth+"px";
+    sticker.style.top = window.innerHeight+"px";
+
+    document.body.appendChild(sticker);
+
+    sticker.animate([
+        {transform:"translateY(0)",opacity:1},
+        {transform:"translateY(-100vh)",opacity:0}
+    ], {duration:5000, easing:"linear"});
+
+    setTimeout(()=>sticker.remove(),5000);
+}
+setInterval(createSticker,2000);
+
+/* 🖼️ Floating final image */
+function createFinalImageSticker() {
+    const img = document.createElement("img");
+    img.src = "free4.png";
+
+    img.style.position = "absolute";
+    img.style.width = (Math.random()*80+60)+"px";
+    img.style.left = Math.random()*window.innerWidth+"px";
+    img.style.top = window.innerHeight+"px";
+    img.style.pointerEvents = "none";
+
+    document.body.appendChild(img);
+
+    img.animate([
+        {transform:"translateY(0)",opacity:1},
+        {transform:"translateY(-100vh)",opacity:0}
+    ], {duration:5000});
+
+    setTimeout(()=>img.remove(),5000);
+}
+
+/* 🎊 Confetti */
+function launchConfetti() {
+    const colors=["#ff4d88","#ffd700","#00ccff","#66ff66","#ff9933"];
+    const cx=window.innerWidth/2, cy=window.innerHeight/2;
+
+    for(let i=0;i<120;i++){
+        const c=document.createElement("div");
+        c.classList.add("confetti");
+        c.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+        c.style.left=cx+"px"; c.style.top=cy+"px";
+
+        const a=Math.random()*2*Math.PI;
+        const d=Math.random()*300+100;
+        c.style.setProperty("--x",Math.cos(a)*d+"px");
+        c.style.setProperty("--y",Math.sin(a)*d+"px");
+
+        c.style.width="6px"; c.style.height="6px";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),2000);
+    }
+}
+</script>
+
+</body>
+</html>
