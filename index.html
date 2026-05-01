@@ -1,140 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Birthday Surprise 💖</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial;
-            margin-top: 100px;
-            background: #ffe6f0;
-            overflow: hidden;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        h1 {
-            color: #ff4d88;
-            z-index: 2;
-            position: relative;
-        }
+<title>Birthday Surprise 💖</title>
 
-        #teaseText {
-            color: #ff4d88;
-            font-size: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
+<style>
+body {
+    text-align: center;
+    font-family: Arial;
+    background: #ffe6f0;
+    margin: 0;
+    overflow: hidden;
+}
 
-        button {
-            padding: 15px 25px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            position: absolute;
-            transition: 0.3s;
-            z-index: 2;
-        }
+/* Layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
 
-        #yesBtn {
-            background-color: #ff4d88;
-            color: white;
-            left: 40%;
-            top: 30%;
-        }
+h1 {
+    color: #ff4d88;
+    font-size: 6vw;
+}
 
-        #noBtn {
-            background-color: #999;
-            color: white;
-            left: 55%;
-            top: 30%;
-        }
+#teaseText {
+    color: #ff4d88;
+    font-size: 4vw;
+    margin: 10px;
+    height: 30px;
+}
 
-        /* 😆 Shake */
-        @keyframes shake {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(-4px, 2px); }
-            50% { transform: translate(4px, -2px); }
-            75% { transform: translate(-3px, 1px); }
-            100% { transform: translate(0, 0); }
-        }
-        .shake { animation: shake 0.3s; }
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
 
-        /* 💖 Hearts */
-        .heart {
-            position: absolute;
-            color: #ff4d88;
-            font-size: 20px;
-            animation: floatUp 6s linear infinite;
-            opacity: 0.7;
-        }
+button {
+    padding: 12px 20px;
+    font-size: 5vw;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-        @keyframes floatUp {
-            from { transform: translateY(100vh); opacity: 1; }
-            to { transform: translateY(-10vh); opacity: 0; }
-        }
+#yesBtn {
+    background-color: #ff4d88;
+    color: white;
+}
 
-        /* 🎊 Confetti */
-        .confetti {
-            position: absolute;
-            opacity: 0.9;
-            animation: explode 1.8s ease-out forwards;
-        }
+#noBtn {
+    background-color: #999;
+    color: white;
+}
 
-        @keyframes explode {
-            from { transform: translate(0,0); opacity:1; }
-            to { transform: translate(var(--x), var(--y)); opacity:0; }
-        }
+/* Shake */
+@keyframes shake {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-3px,2px); }
+    50% { transform: translate(3px,-2px); }
+    75% { transform: translate(-2px,1px); }
+    100% { transform: translate(0,0); }
+}
+.shake { animation: shake 0.3s; }
 
-        /* 🐱 Stickers */
-        .sticker {
-            position: absolute;
-            width: 300px;
-            z-index: 1;
-            pointer-events: none;
-            animation: floatSticker 4s ease-in-out infinite alternate;
-        }
+/* Hearts */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatUp 5s linear infinite;
+}
 
-        @keyframes floatSticker {
-            from { transform: translateY(0px) rotate(-5deg); }
-            to { transform: translateY(-20px) rotate(5deg); }
-        }
+@keyframes floatUp {
+    from { transform: translateY(100vh); opacity:1; }
+    to { transform: translateY(-10vh); opacity:0; }
+}
 
-        /* 🖼️ Final image */
-        #finalImage {
-            width: 500px;
-            margin-top: 20px;
-            border-radius: 20px;
-            animation: popIn 0.6s ease;
-        }
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    animation: explode 1.5s ease-out forwards;
+}
 
-        @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-    </style>
+@keyframes explode {
+    from { transform: translate(0,0); }
+    to { transform: translate(var(--x), var(--y)); opacity:0; }
+}
+
+/* Final image */
+#finalImage {
+    width: 80%;
+    max-width: 300px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>Will you be my forever? 💖</h1>
-<p id="teaseText"></p>
+<div class="container">
+    <h1>Will you be my forever? 💖</h1>
+    <p id="teaseText"></p>
 
-<!-- 🐱 Static Stickers -->
-<img src="pic1.png" class="sticker" style="left:10%; top:20%;">
-<img src="pic2.png" class="sticker" style="right:10%; top:20%;">
-<img src="pic3.png" class="sticker" style="left:10%; bottom:10%;">
-<img src="pic4.png" class="sticker" style="right:10%; bottom:10%;">
-<img src="pic6.png" class="sticker" style="right:39%; bottom:4%;">
+    <div class="button-group">
+        <button id="yesBtn">Yes 🤍</button>
+        <button id="noBtn">No 🥺</button>
+    </div>
+</div>
 
-<button id="yesBtn" onclick="yesClicked()">Yes 🤍</button>
-<button id="noBtn">No 🥺</button>
-
-<!-- 🔊 Sounds -->
 <audio id="popSound" src="Pop.mp3"></audio>
 <audio id="successSound" src="Success.mp3"></audio>
 
@@ -148,18 +131,22 @@ const successSound = document.getElementById("successSound");
 
 let yesScale = 1;
 
-const playfulMessages = [
-    "You sure?","Think twice.","Pretty please?","Really?",
-    "Oops…","Not quite.","Hmm?","Keep guessing",
-    "Come on","I'm waiting","Try again."
+const messages = [
+    "You sure? 😏","Think again 🥺","No escape 😆",
+    "Try again 💖","Hehe nope 😜","Come onnn ❤️"
 ];
 
+/* Move NO button (mobile safe) */
 function moveNoButton() {
-    const padding = 100;
+    const rect = noBtn.getBoundingClientRect();
 
-    const x = Math.random() * (window.innerWidth - padding);
-    const y = Math.random() * (window.innerHeight - padding);
+    const maxX = window.innerWidth - rect.width;
+    const maxY = window.innerHeight - rect.height;
 
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
@@ -169,130 +156,74 @@ function moveNoButton() {
     noBtn.classList.add("shake");
     setTimeout(() => noBtn.classList.remove("shake"), 300);
 
-    const msg = playfulMessages[Math.floor(Math.random() * playfulMessages.length)];
-    teaseText.style.opacity = 0;
+    teaseText.innerText = messages[Math.floor(Math.random()*messages.length)];
 
-    setTimeout(() => {
-        teaseText.innerText = msg;
-        teaseText.style.opacity = 1;
-    }, 100);
-
-    yesScale += 0.2;
+    yesScale += 0.15;
     yesBtn.style.transform = `scale(${yesScale})`;
 
-    if (yesScale > 3.6) {
+    if (yesScale > 2.5) {
+        yesBtn.style.position = "fixed";
         yesBtn.style.width = "100vw";
         yesBtn.style.height = "100vh";
         yesBtn.style.left = "0";
         yesBtn.style.top = "0";
         yesBtn.style.borderRadius = "0";
-        yesBtn.style.fontSize = "40px";
+        yesBtn.style.fontSize = "8vw";
     }
 }
 
-noBtn.addEventListener("mouseover", moveNoButton);
-noBtn.addEventListener("touchstart", moveNoButton);
+/* Use CLICK only (mobile friendly) */
 noBtn.addEventListener("click", moveNoButton);
 
-document.addEventListener("mousemove", (e) => {
-    const rect = noBtn.getBoundingClientRect();
-    const dx = e.clientX - (rect.left + rect.width/2);
-    const dy = e.clientY - (rect.top + rect.height/2);
-    const dist = Math.hypot(dx, dy);
-
-    if (dist < 120) noBtn.classList.add("shake");
-    else noBtn.classList.remove("shake");
-});
-
-function yesClicked() {
-    successSound.currentTime = 0;
+/* YES clicked */
+yesBtn.addEventListener("click", () => {
     successSound.play();
 
     document.body.innerHTML = `
-        <h1 style="color:#ff4d88; font-size:40px;">
-            YAY!!! 💖🎉<br>
-            Happy Birthday Suttuuu....❤️
-        </h1>
-        <img src="pic5.png" id="finalImage">
+        <div class="container">
+            <h1 style="font-size:8vw;">
+                YAY!!! 💖🎉<br>
+                Happy Birthday Suttuuu ❤️
+            </h1>
+            <img src="pic5.png" id="finalImage">
+        </div>
     `;
 
     launchConfetti();
+});
 
-    setInterval(createFinalImageSticker, 1500);
-}
-
-/* 💖 Hearts */
-function createHeart() {
+/* Hearts */
+const heartInterval = setInterval(() => {
     const heart = document.createElement("div");
     heart.classList.add("heart");
     heart.innerHTML = "💖";
-    heart.style.left = Math.random()*window.innerWidth+"px";
+    heart.style.left = Math.random()*100+"vw";
     document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),6000);
-}
-setInterval(createHeart,300);
+    setTimeout(()=>heart.remove(),5000);
+}, 400);
 
-/* 🐱 Floating stickers */
-function createSticker() {
-    const sticker = document.createElement("img");
-    const imgs = ["free1.png","free2.png","free3.png","free4.png","free6.png"];
-    sticker.src = imgs[Math.floor(Math.random()*imgs.length)];
-    sticker.classList.add("sticker");
-
-    sticker.style.left = Math.random()*window.innerWidth+"px";
-    sticker.style.top = window.innerHeight+"px";
-
-    document.body.appendChild(sticker);
-
-    sticker.animate([
-        {transform:"translateY(0)",opacity:1},
-        {transform:"translateY(-100vh)",opacity:0}
-    ], {duration:5000, easing:"linear"});
-
-    setTimeout(()=>sticker.remove(),5000);
-}
-setInterval(createSticker,2000);
-
-/* 🖼️ Floating final image */
-function createFinalImageSticker() {
-    const img = document.createElement("img");
-    img.src = "free4.png";
-
-    img.style.position = "absolute";
-    img.style.width = (Math.random()*80+60)+"px";
-    img.style.left = Math.random()*window.innerWidth+"px";
-    img.style.top = window.innerHeight+"px";
-    img.style.pointerEvents = "none";
-
-    document.body.appendChild(img);
-
-    img.animate([
-        {transform:"translateY(0)",opacity:1},
-        {transform:"translateY(-100vh)",opacity:0}
-    ], {duration:5000});
-
-    setTimeout(()=>img.remove(),5000);
-}
-
-/* 🎊 Confetti */
+/* Confetti */
 function launchConfetti() {
-    const colors=["#ff4d88","#ffd700","#00ccff","#66ff66","#ff9933"];
-    const cx=window.innerWidth/2, cy=window.innerHeight/2;
+    const colors=["#ff4d88","#ffd700","#00ccff"];
+    const cx=window.innerWidth/2;
+    const cy=window.innerHeight/2;
 
-    for(let i=0;i<120;i++){
+    for(let i=0;i<80;i++){
         const c=document.createElement("div");
         c.classList.add("confetti");
         c.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-        c.style.left=cx+"px"; c.style.top=cy+"px";
 
-        const a=Math.random()*2*Math.PI;
-        const d=Math.random()*300+100;
-        c.style.setProperty("--x",Math.cos(a)*d+"px");
-        c.style.setProperty("--y",Math.sin(a)*d+"px");
+        c.style.left=cx+"px";
+        c.style.top=cy+"px";
 
-        c.style.width="6px"; c.style.height="6px";
+        const angle=Math.random()*2*Math.PI;
+        const dist=Math.random()*250;
+
+        c.style.setProperty("--x",Math.cos(angle)*dist+"px");
+        c.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
         document.body.appendChild(c);
-        setTimeout(()=>c.remove(),2000);
+        setTimeout(()=>c.remove(),1500);
     }
 }
 </script>
